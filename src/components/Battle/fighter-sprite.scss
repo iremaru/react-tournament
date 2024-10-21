@@ -1,0 +1,74 @@
+.player-room {
+
+	>.fighter-sprite {
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+
+		flex-shrink: 2;
+		height: 100%;
+		width: 40%;
+		min-width: min(150px, 50%);
+		overflow: hidden;
+
+		>img {
+			max-height: -webkit-fill-available;
+			object-fit: scale-down;
+		}
+	}
+}
+
+//ANIMATIONS
+@keyframes idle {
+	from {
+		transform: translate(0, 0);
+	}
+
+	to {
+		transform: translate(5px, 0);
+	}
+}
+
+@keyframes defending {
+	from {
+		filter: sepia();
+	}
+
+	to {
+		filter: grayscale(red);
+	}
+}
+
+.idle_right {
+	animation: idle .5s 0s linear infinite alternate-reverse;
+}
+
+.idle_left {
+	animation: idle .5s 0s linear infinite alternate;
+}
+
+.attacking_right {
+	animation: move 1s 0s linear infinite alternate-reverse;
+}
+
+.attacking_left {
+	animation: move 1s 0s linear infinite alternate;
+}
+
+.defending_right {
+	animation: defending .5s 0s linear infinite alternate-reverse;
+}
+
+.defending_left {
+	animation: defending .5s 0s linear infinite alternate;
+}
+
+@keyframes move {
+	0% {
+		transform: translate(0);
+	}
+
+	100% {
+		transform: translate(100px);
+	}
+}

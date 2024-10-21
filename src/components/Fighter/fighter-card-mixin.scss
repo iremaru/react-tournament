@@ -1,0 +1,116 @@
+@mixin fighter-card ($card-width: 100%,
+	$card-height: 150px,
+	$title-font-size: 12pt,
+	$avatar-width: 75px,
+	$enrroller-text: 'ENRROLLED',
+) {
+
+	.fighter-room {
+		position: relative;
+		display: flex;
+		height: $card-height;
+		width: $card-width;
+
+		>.enroller-band {
+			text-align: center;
+
+			&::after {
+				content: $enrroller-text;
+				border-radius: 3px;
+				position: absolute;
+				top: 10px;
+				right: -13px;
+				width: 33%;
+				transform: rotate(45deg);
+				background-color: $palette-color_yellow;
+				color: $palette-color_yellow_over;
+				font-weight: 700;
+				font-size: small;
+				padding: 10px;
+
+				border: 0;
+				margin: 0;
+				z-index: 3;
+			}
+		}
+
+		>.fighter_card {
+			height: 100%;
+			width: 100%;
+			padding: 13px;
+			border-radius: 5px;
+			background-color: $palette-color_black;
+			color: $palette-color_black_over;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+
+			&.enrrolled {
+				background-color: $palette-color_black;
+				border: 2px $palette-color_orange solid;
+				@include border-comic();
+
+				>.fighter_info>.image {
+					background-color: $palette-color_blue;
+
+					>img {
+						transform: scale(1.5);
+					}
+				}
+
+				>*.fighter_stats {
+					background-color: $palette-color_black;
+					border-radius: 0;
+					border-top: 5px $palette-color_blue solid;
+				}
+			}
+
+			>* {
+				width: 100%;
+				display: flex;
+				border-radius: 5px;
+
+				&.fighter_info {
+					display: flex;
+					align-items: center;
+
+
+					>p {
+						font-size: $title-font-size;
+						font-weight: 700;
+						padding-left: 1em;
+						text-transform: uppercase;
+					}
+
+					>.image {
+						height: $avatar-width;
+						width: $avatar-width;
+
+						background-color: $palette-color_orange;
+
+						border-radius: 3px 3px 0 0;
+						overflow: hidden;
+
+						>img {
+							object-fit: cover;
+							transition: transform 0.5s ease-in-out;
+						}
+					}
+				}
+
+				&.fighter_stats {
+					background-color: $palette-color_blue;
+					justify-content: space-around;
+					height: fit-content;
+					border-top-left-radius: 0;
+
+					p {
+						padding: 3px;
+					}
+				}
+			}
+
+		}
+	}
+}
