@@ -1,0 +1,60 @@
+@import '../../style/style.scss';
+@import './fighter-card-mixin.scss';
+
+$card-width: 100%;
+$card-height: 150px;
+$title-font-size: 12pt;
+
+@include fighter-card();
+
+@media (min-width: 300px) {
+	$card-width: 100%;
+	$card-height: 150px;
+	$title-font-size: 15pt;
+
+	@include fighter-card($card-width,
+		$card-height,
+		$title-font-size)
+}
+
+@media (min-width: 430px) {
+	$card-width: 100%;
+	$card-height: 110px;
+	$title-font-size: 10pt;
+	$avatar-width: 50px;
+	$enrroller-text: 'IN';
+
+	@include fighter-card($card-width,
+		$card-height,
+		$title-font-size,
+		$avatar-width,
+		$enrroller-text)
+}
+
+@media (min-width: 600px) {
+	$card-width: 100%;
+	$card-height: 150px;
+	$title-font-size: 10pt;
+	$avatar-width: 50px;
+	$enrroller-text: 'IN';
+
+	@include fighter-card($card-width,
+		$card-height,
+		$title-font-size,
+		$avatar-width,
+		$enrroller-text)
+}
+
+@media (min-width: 1200px) {
+	$card-width: 100%;
+	$card-height: 150px;
+	$title-font-size: 10pt;
+	$avatar-width: 50px;
+	$enrroller-text: 'ENRROLLED';
+
+	@include fighter-card($card-width,
+		$card-height,
+		$title-font-size,
+		$avatar-width,
+		$enrroller-text)
+}

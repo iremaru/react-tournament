@@ -1,0 +1,84 @@
+@import '../../style/style.scss';
+
+.section_tournament {
+
+	>.rounds_room {
+		height: 400px;
+
+		>.rounds {
+			display: flex;
+			gap: 13px;
+
+			>.round_column {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				gap: 13px;
+
+				.battle_card {
+					position: relative;
+					//background-color: $palette-color_white;
+					background-color: #b2c0dd;
+					color: $palette-color_white_over;
+					width: 140px;
+					height: 100px;
+					padding: 3px;
+					border-radius: 3px;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					font-size: 10pt;
+					align-items: center;
+					font-weight: 900;
+					text-transform: uppercase;
+					//outline: 5px $palette-color_black solid;
+					outline: 2px $palette-color_orange solid;
+					@include border-comic();
+
+					.text-vs {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						height: 10px;
+						width: 100%;
+						text-align: center;
+
+						font-size: 26pt;
+						line-height: .5;
+						transform: rotate(12deg);
+						color: $palette-color_orange;
+						-webkit-text-stroke-width: 3px;
+						-webkit-text-stroke-color: $palette-color_black;
+						z-index: 3;
+					}
+
+					.winner {
+						font-size: large;
+					}
+
+					.losser {
+						position: relative;
+						color: grey;
+
+						&::before {
+							content: "";
+							position: absolute;
+							left: 0;
+							top: 50%;
+							right: 0;
+							border-top: 3px solid;
+							border-color: rgb(84, 12, 12);
+
+							-webkit-transform: rotate(-5deg);
+							-moz-transform: rotate(-5deg);
+							-ms-transform: rotate(-5deg);
+							-o-transform: rotate(-5deg);
+							transform: rotate(-5deg);
+						}
+					}
+				}
+			}
+		}
+	}
+}

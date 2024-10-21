@@ -1,0 +1,14 @@
+.main-navbar {
+	width: 100%;
+	//height: 50px;
+	margin-bottom: 20px;
+
+	.section-title {
+		padding-left: 2em;
+	}
+
+	.navbar-routes {
+		display: flex;
+		justify-content: space-around;
+	}
+}
