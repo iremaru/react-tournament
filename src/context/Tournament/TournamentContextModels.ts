@@ -8,7 +8,7 @@ export enum TOURNAMENT_CONTEXT_ENUM {
 	SET_CURRENT_BATTLE,
 	SET_ROUNDS,
 	SET_PARTICIPANTS,
-	SET_CAN_BE_PLAYED,
+	SET_CURRENT_PHASE,
 	//UPDATERS
 	UPDATE_LOSSERS,
 	UPDATE_PREVIUS_BATTLES,
@@ -49,8 +49,8 @@ export type TournamentAction =
 		payload: db_battle[];
 	}
 	| {
-		type: TOURNAMENT_CONTEXT_ENUM.SET_CAN_BE_PLAYED;
-		payload: boolean;
+		type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE;
+		payload: TournamentStages;
 	}
 	| {
 		type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_BATTLE;
@@ -116,5 +116,5 @@ export type TournamentContexType = {
 	}) => void;
 	setCurrentBattleLog: (logs: ILogHistory[]) => void;
 	updateCurrentBattleLog: (newDialog: ICharaDialog) => void;
-	setRounds: (rounds: db_round[]) => void;
+	setRounds: () => void;
 }

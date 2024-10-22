@@ -1,7 +1,7 @@
 import { useReducer, ReactNode, createContext } from 'react';
 import { TournamentReducer } from './TournamentReducer';
 import { db_battle, db_fighter, db_round } from '../../models/DragonBallTournament/dbTournamentModel';
-import { ICharaDialog, CurrentMatchType, TOURNAMENT_CONTEXT_ENUM, TournamentContexType, ILogHistory } from './TournamentContextModels';
+import { ICharaDialog, CurrentMatchType, TOURNAMENT_CONTEXT_ENUM, TournamentContexType, ILogHistory, TournamentStages } from './TournamentContextModels';
 import { initialState } from './TournamentInitialState';
 import { getRandomBackground } from '@public/ring-background/';
 
@@ -36,14 +36,18 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 		});
 	};
 
-	const setRounds = (rounds: db_round[]) => {
-
+	const setRounds = () => {
+		const rounds = getRounds(state.participants)
 		dispatch({
 			type: TOURNAMENT_CONTEXT_ENUM.SET_ROUNDS,
 			payload: rounds,
 		});
 
 		if (rounds.length) {
+			dispatch({
+				type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE,
+				payload: TournamentStages.RoundsSetted,
+			})
 			console.log('Asignando match')
 			const firstBattle: CurrentMatchType = {
 				backgroundPath: getRandomBackground(),
@@ -114,12 +118,15 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 
-	const setTournamentCanBePlayed = (fighterCount: number) => dispatch({
-		type: TOURNAMENT_CONTEXT_ENUM.SET_CAN_BE_PLAYED,
-		payload: fighterCount > 0 &&
+	const setTournamentCanBePlayed = (fighterCount: number) => {
+		const canBe = fighterCount > 0 &&
 			(fighterCount & (fighterCount - 1)) === 0 &&
-			Math.log2(fighterCount) !== 0,
-	})
+			Math.log2(fighterCount) !== 0;
+		dispatch({
+			type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE,
+			payload: canBe ? TournamentStages.CanBePlayed : TournamentStages.NeedFighters,
+		})
+	}
 
 
 	return (

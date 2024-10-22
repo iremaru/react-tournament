@@ -14,7 +14,10 @@ export const FighterSelector = () => {
 	const toggleFighter = (fighter: db_fighter, isActive: boolean) => {
 		return isActive ? setNewParticipant?.(fighter) : removeParticipant?.(fighter)
 	}
-	return tournament.tournamentPhase === TournamentStages.NeedFighters && (
+
+	const checkCanShow = () => tournament.tournamentPhase === TournamentStages.NeedFighters || tournament.tournamentPhase === TournamentStages.CanBePlayed;
+
+	return checkCanShow() && (
 		<div className='fighters'>
 			{availableFighters.map((fighter: db_fighter, iFighter) =>
 				<FighterCard

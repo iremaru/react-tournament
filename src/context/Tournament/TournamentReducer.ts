@@ -10,10 +10,10 @@ export const TournamentReducer = (
 				...state,
 				participants: [...action.payload],
 			};
-		case TOURNAMENT_CONTEXT_ENUM.SET_CAN_BE_PLAYED:
+		case TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE:
 			return {
 				...state,
-				torunamentCanBePlayed: action.payload,
+				tournamentPhase: action.payload,
 			};
 		case TOURNAMENT_CONTEXT_ENUM.SET_ROUNDS:
 			return {
