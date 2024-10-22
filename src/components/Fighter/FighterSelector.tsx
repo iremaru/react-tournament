@@ -1,4 +1,5 @@
 
+import { TournamentStages } from '@context/Tournament/TournamentContextModels';
 import { getAllFighters } from '../../api/tournament/fighterRequest';
 import { useTournament } from '../../context/Tournament/useTournament';
 import { db_fighter } from '../../models/DragonBallTournament/dbTournamentModel';
@@ -6,14 +7,14 @@ import { FighterCard } from './FighterCard';
 
 export const FighterSelector = () => {
 
-	const { setNewParticipant, removeParticipant, } = useTournament();
+	const { tournament, setNewParticipant, removeParticipant, } = useTournament();
 
 	const availableFighters = getAllFighters();
 
 	const toggleFighter = (fighter: db_fighter, isActive: boolean) => {
 		return isActive ? setNewParticipant?.(fighter) : removeParticipant?.(fighter)
 	}
-	return (
+	return tournament.tournamentPhase === TournamentStages.NeedFighters && (
 		<div className='fighters'>
 			{availableFighters.map((fighter: db_fighter, iFighter) =>
 				<FighterCard
