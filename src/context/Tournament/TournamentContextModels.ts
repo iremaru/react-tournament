@@ -8,6 +8,7 @@ export enum TOURNAMENT_CONTEXT_ENUM {
 	SET_CURRENT_BATTLE,
 	SET_ROUNDS,
 	SET_PARTICIPANTS,
+	SET_CAN_BE_PLAYED,
 	//UPDATERS
 	UPDATE_LOSSERS,
 	UPDATE_PREVIUS_BATTLES,
@@ -24,6 +25,16 @@ export enum TOURNAMENT_CONTEXT_ENUM {
 	DELETE_PARTICIPANTS,
 }
 
+export enum TournamentStages {
+	NeedFighters,
+	CanBePlayed,
+	RoundsSetted,
+	BattleStarted,
+	BattleEnded,
+	RoundEnded,
+	TournamentEnded,
+}
+
 export type TournamentAction =
 	| {
 		type: TOURNAMENT_CONTEXT_ENUM.SET_PARTICIPANTS;
@@ -36,6 +47,10 @@ export type TournamentAction =
 	| {
 		type: TOURNAMENT_CONTEXT_ENUM.SET_NEXT_BATTLES;
 		payload: db_battle[];
+	}
+	| {
+		type: TOURNAMENT_CONTEXT_ENUM.SET_CAN_BE_PLAYED;
+		payload: boolean;
 	}
 	| {
 		type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_BATTLE;
@@ -78,6 +93,7 @@ export type CurrentMatchType = {
 
 export interface ITournament {
 	participants: db_fighter[];
+	tournamentPhase: TournamentStages;
 	currentRound: number;
 	rounds: db_round[];
 	currentBattle: CurrentMatchType | null;

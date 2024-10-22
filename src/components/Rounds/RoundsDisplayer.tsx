@@ -1,11 +1,12 @@
 import { db_battle, db_round } from '../../models/DragonBallTournament/dbTournamentModel';
 import { useTournament } from '../../context/Tournament/useTournament';
+import { TournamentStages } from '@context/Tournament/TournamentContextModels';
 
 import './rounds.scss';
 export const RoundsDisplayer = () => {
 	const { tournament } = useTournament()
 
-	return (
+	return tournament.tournamentPhase === TournamentStages.RoundsSetted && (
 		<div className="rounds_room">
 			<h2>Rounds</h2>
 			<div className="rounds">

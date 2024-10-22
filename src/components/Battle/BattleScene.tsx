@@ -10,6 +10,7 @@ import { FighterSprite } from './FighterSprite';
 import { FighterPosition } from '@models/Enums';
 
 import './battle-scene.scss';
+import { TournamentStages } from '@context/Tournament/TournamentContextModels';
 
 const noImg = {
 	avatar: {
@@ -72,7 +73,7 @@ export const BattleScene = () => {
 			setCurrentBattleLog(logHistory)
 	}, [logHistory])
 
-	return (
+	return tournament.tournamentPhase === TournamentStages.BattleStarted && (
 		<div className='battle-scene'>
 			<div className='btn-user-actions'>
 				<button

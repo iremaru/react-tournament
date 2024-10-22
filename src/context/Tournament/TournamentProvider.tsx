@@ -5,7 +5,6 @@ import { ICharaDialog, CurrentMatchType, TOURNAMENT_CONTEXT_ENUM, TournamentCont
 import { initialState } from './TournamentInitialState';
 import { getRandomBackground } from '@public/ring-background/';
 
-
 export const TournamentContext = createContext<TournamentContexType | null>(null);
 
 export const TournamentProvider = ({ children }: { children: ReactNode }) => {
@@ -13,7 +12,8 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 
 	const setNewParticipant = (newFighter: db_fighter) => {
 		const participants: db_fighter[] = [...state.participants, newFighter];
-		setRounds(getRounds(participants));
+
+		setTournamentCanBePlayed(participants.length)
 
 		dispatch({
 			type: TOURNAMENT_CONTEXT_ENUM.SET_PARTICIPANTS,
@@ -26,8 +26,10 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 			...state.participants.filter(
 				(participant: db_fighter) => participant.name != removedFighter.name
 			),
-		]
-		setRounds(getRounds(participants));
+		];
+
+		setTournamentCanBePlayed(participants.length)
+
 		dispatch({
 			type: TOURNAMENT_CONTEXT_ENUM.SET_PARTICIPANTS,
 			payload: participants,
@@ -112,6 +114,14 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 
+	const setTournamentCanBePlayed = (fighterCount: number) => dispatch({
+		type: TOURNAMENT_CONTEXT_ENUM.SET_CAN_BE_PLAYED,
+		payload: fighterCount > 0 &&
+			(fighterCount & (fighterCount - 1)) === 0 &&
+			Math.log2(fighterCount) !== 0,
+	})
+
+
 	return (
 		<TournamentContext.Provider
 			value={{
@@ -130,52 +140,46 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 	);
 };
 
+
+
 const getRounds = (selectedFighters: db_fighter[]) => {
-	if (
-		selectedFighters.length > 0 &&
-		(selectedFighters.length & (selectedFighters.length - 1)) === 0 &&
-		Math.log2(selectedFighters.length) !== 0
+	const totalRounds = Math.log2(selectedFighters.length);
+	const battleCountInFirstRound = selectedFighters.length / 2;
+	const participants = [...selectedFighters];
+
+	const { battles: battlesInFirstRound } = getBattles(
+		battleCountInFirstRound,
+		participants
+	);
+
+	const noneFighter: db_fighter = {
+		name: '',
+		isMale: false,
+		health: 0,
+		atackPower: 0,
+		defense: 0,
+		speed: 0,
+	};
+
+	const rounds: db_round[] = [];
+	for (
+		let i = 0, encounters = battleCountInFirstRound;
+		i < totalRounds;
+		i++, encounters /= 2
 	) {
-		const totalRounds = Math.log2(selectedFighters.length);
-		const battleCountInFirstRound = selectedFighters.length / 2;
-		const participants = [...selectedFighters];
-
-		const { battles: battlesInFirstRound } = getBattles(
-			battleCountInFirstRound,
-			participants
-		);
-
-		const noneFighter: db_fighter = {
-			name: '',
-			isMale: false,
-			health: 0,
-			atackPower: 0,
-			defense: 0,
-			speed: 0,
-		};
-
-		const rounds: db_round[] = [];
-		for (
-			let i = 0, encounters = battleCountInFirstRound;
-			i < totalRounds;
-			i++, encounters /= 2
-		) {
-			rounds.push({
-				encounters: encounters,
-				battles: new Array(encounters).fill(noneFighter, 0, encounters),
-				winners: [],
-			});
-		}
-
-		rounds[0] = {
-			...rounds[0],
-			battles: battlesInFirstRound,
-		};
-
-		return rounds;
-	} else {
-		return [];
+		rounds.push({
+			encounters: encounters,
+			battles: new Array(encounters).fill(noneFighter, 0, encounters),
+			winners: [],
+		});
 	}
+
+	rounds[0] = {
+		...rounds[0],
+		battles: battlesInFirstRound,
+	};
+
+	return rounds;
 };
 
 const getBattles = (totalBattles: number, participants: db_fighter[]) => {
