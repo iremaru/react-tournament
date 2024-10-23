@@ -24,7 +24,7 @@ export const TournamentAction = () => {
 				}
 				onClick={cancelTournament}
 			>
-				End tournament
+				{`${TournamentStages.TournamentEnded ? 'Restart' : 'End'} tournament`}
 			</button>
 		</div>
 	)
