@@ -128,6 +128,12 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 		})
 	}
 
+	const startNextBattle = () => {
+		dispatch({
+			type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE,
+			payload: TournamentStages.BattleStarted,
+		})
+	}
 	const cancelTournament = () => {
 		dispatch({
 			type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE,
@@ -147,6 +153,7 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 				updateCurrentBattle,
 				setCurrentBattleLog,
 				updateCurrentBattleLog,
+				startNextBattle,
 				cancelTournament,
 			}}
 		>

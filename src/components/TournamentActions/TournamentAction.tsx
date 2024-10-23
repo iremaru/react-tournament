@@ -3,7 +3,7 @@ import './tournament-actions.scss';
 import { TournamentStages } from '@context/Tournament/TournamentContextModels';
 
 export const TournamentAction = () => {
-	const { tournament, setRounds, cancelTournament } = useTournament();
+	const { tournament, setRounds, startNextBattle, cancelTournament } = useTournament();
 	return (
 		<div className='tournament-actions'>
 			<button
@@ -15,6 +15,7 @@ export const TournamentAction = () => {
 			<button
 				disabled={tournament.tournamentPhase !== TournamentStages.RoundsSetted &&
 					tournament.tournamentPhase !== TournamentStages.BattleEnded}
+				onClick={startNextBattle}
 			>
 				Play next battle
 			</button>

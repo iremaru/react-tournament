@@ -117,5 +117,6 @@ export type TournamentContexType = {
 	setCurrentBattleLog: (logs: ILogHistory[]) => void;
 	updateCurrentBattleLog: (newDialog: ICharaDialog) => void;
 	setRounds: () => void;
+	startNextBattle: () => void;
 	cancelTournament: () => void;
 }
