@@ -118,5 +118,6 @@ export type TournamentContexType = {
 	updateCurrentBattleLog: (newDialog: ICharaDialog) => void;
 	setRounds: () => void;
 	startNextBattle: () => void;
+	setBattleIsOver: () => void;
 	cancelTournament: () => void;
 }

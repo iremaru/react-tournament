@@ -15,38 +15,93 @@
 
 	}
 
-
 	>.battle-box {
+		height: 500px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		background-color: $palette-color_black;
 		border: 5px $palette-color_black solid;
+		border-radius: 5px 5px 0 0;
 
-		>.logo-dg {
-			width: 100%;
-			height: 100px;
+		>.main {
 			display: flex;
-			justify-content: center;
-			filter: drop-shadow(0 0 8px rgb(189, 75, 14));
 
-			>img {
-				object-fit: contain;
-				filter: drop-shadow(0 0 100px rgba(238, 87, 6, 0.585));
+			border-radius: 3px;
+			height: max(200px, 35dvh);
+			width: 100%;
+			max-width: max(1000px, 75dvw);
+		}
+
+		>.result-displayer {
+			justify-content: center;
+			gap: 10px;
+
+			.card_result {
+				display: flex;
+				max-height: 100%;
+				width: 100%;
+				min-width: 100px;
+				gap: 10px;
+				overflow: hidden;
+
+				>p {
+					padding: 1em .3em 1em .3em;
+					writing-mode: tb;
+					text-orientation: upright;
+					text-transform: uppercase;
+					font-weight: 900;
+				}
+
+				>.img-container {
+					background-size: cover;
+					background-position: center;
+					background-clip: padding-box;
+
+					display: flex;
+					align-items: center;
+					width: 100px;
+					height: 100%;
+
+					>img {
+						display: none;
+						object-fit: contain;
+
+						filter: drop-shadow(0 0 100px rgba(238, 87, 6, 0.585));
+					}
+				}
+
+
+				&.card_losser {
+					background-color: rgba(113, 39, 39, 0.533);
+					justify-content: flex-start;
+
+					>.img-container {
+						filter: drop-shadow(0 0 8px rgb(189, 75, 14));
+
+						>img {
+							filter: grayscale(100%)
+						}
+					}
+				}
+
+				&.card_winner {
+					background-color: rgba(69, 113, 39, 0.533);
+					justify-content: flex-end;
+
+					>.img-container {
+						filter: drop-shadow(0 0 8px rgb(189, 247, 97));
+					}
+				}
 			}
+
+
 		}
 
 		>.battle-ring {
 			background-size: cover;
 			background-color: $palette-color_white;
 
-			border-radius: 3px;
-
-			height: 500px;
-			width: 100%;
-			max-width: max(1000px, 75dvw);
-
-			display: flex;
 			flex-direction: column;
 
 			>.player-info-box {

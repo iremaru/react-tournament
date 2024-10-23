@@ -48,7 +48,7 @@ const noBattle: db_battle = {
 }
 
 export const BattleScene = () => {
-	const { tournament, setCurrentBattleLog } = useTournament()
+	const { tournament, setCurrentBattleLog, setBattleIsOver } = useTournament()
 	const { currentBattle } = tournament;
 	const [charIsTalking, toggleCharIsTalking] = useToggle(false); //TODO: Chara dialogs
 
@@ -73,7 +73,17 @@ export const BattleScene = () => {
 			setCurrentBattleLog(logHistory)
 	}, [logHistory])
 
-	return tournament.tournamentPhase === TournamentStages.BattleStarted && (
+	useEffect(() => {
+		if (battleState === BattleState.OVER)
+			setBattleIsOver();
+	}, [battleState])
+
+	const ShouldShowScene = (tournamentState: TournamentStages) =>
+		tournamentState === TournamentStages.BattleStarted || tournamentState === TournamentStages.BattleEnded;
+
+
+
+	return ShouldShowScene(tournament.tournamentPhase) && (
 		<div className='battle-scene'>
 			<div className='btn-user-actions'>
 				<button
@@ -87,28 +97,10 @@ export const BattleScene = () => {
 
 				>AutoPlay</button>
 			</div>
-			{currentFighters.length > 1 &&
-				(
-					<div className='battle-box'>
-						<div className='logo-dg'>
-							<img src="./../../../public/Dragon-Ball-Z-LogoTitle.png" alt="" />
-							{lossers.length > 0 && (
-								<>
-									{
-										lossers.map((losser, i) => (
-											<div className='fighter-losser'
-												key={`losser-display${i}`}>
-												<img src={losser.img.avatar.s} />
-											</div>
-										))}
-									<div className='fighter-winner'>
-										<img src={winner?.img.avatar.s} /> //TODO: SCSS FOR NO-WINNER CASE
-									</div>
-								</>
-							)
-							}
-						</div>
-						<div className='battle-ring'
+			<div className='battle-box'>
+				{tournament.tournamentPhase === TournamentStages.BattleStarted
+					? (
+						<div className='main battle-ring'
 							style={{ backgroundImage: `url(${currentBattle?.backgroundPath})` }}
 						>
 							<div className='player-info-box'>
@@ -123,17 +115,35 @@ export const BattleScene = () => {
 								<FighterSprite fighterAction={actionState.ActionsFromFighterB} position={FighterPosition.RIGHT} />
 							</div>
 						</div>
-						<div className='battle-log'>
-							{
-								charIsTalking
-									? (<CharacterTalkbox
-										onEndTalk={() => toggleCharIsTalking()} />)
-									: (<BattleLogBox />)
+					)
+					: (
+						<div className='main result-displayer'>
+							{lossers.length > 0 && (
+								<>
+									<div className='card_result card_winner'>
+										<p>{winner?.name}</p>
+										<div className='img-container' style={{ backgroundImage: `url(${winner?.img.avatar.s})` }}>
+										</div>
+									</div>
+									<div className='card_result card_losser'>
+										<div className='img-container' style={{ backgroundImage: `url(${lossers[0]?.img.avatar.s})` }}>
+										</div>
+										<p>{lossers[0]?.name}</p>
+									</div>
+								</>
+							)
 							}
 						</div>
-					</div>
-				)
-			}
+					)}
+				<div className='battle-log'>
+					{
+						charIsTalking
+							? (<CharacterTalkbox
+								onEndTalk={() => toggleCharIsTalking()} />)
+							: (<BattleLogBox />)
+					}
+				</div>
+			</div>
 		</div>
 
 	)

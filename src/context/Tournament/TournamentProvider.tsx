@@ -117,7 +117,6 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 		}
 	}
 
-
 	const setTournamentCanBePlayed = (fighterCount: number) => {
 		const canBe = fighterCount > 0 &&
 			(fighterCount & (fighterCount - 1)) === 0 &&
@@ -134,6 +133,14 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 			payload: TournamentStages.BattleStarted,
 		})
 	}
+
+	const setBattleIsOver = () => {
+		dispatch({
+			type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE,
+			payload: TournamentStages.BattleEnded,
+		})
+	}
+
 	const cancelTournament = () => {
 		dispatch({
 			type: TOURNAMENT_CONTEXT_ENUM.SET_CURRENT_PHASE,
@@ -154,6 +161,7 @@ export const TournamentProvider = ({ children }: { children: ReactNode }) => {
 				setCurrentBattleLog,
 				updateCurrentBattleLog,
 				startNextBattle,
+				setBattleIsOver,
 				cancelTournament,
 			}}
 		>
