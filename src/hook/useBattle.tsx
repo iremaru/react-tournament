@@ -30,7 +30,7 @@ export const useBattle = (battle: db_battle) => {
 	const [battleInfo, setBattleInfo] = useState(battle);
 	const [firstIsAttacker, setFirstIsAttacker] = useState(true);
 	const [battleState, setBattleState] = useState<BattleState>(
-		BattleState.OVER
+		BattleState.UNSETTED
 	);
 	const [victoryCause, setVictoryCause] = useState<VictoryCondition>(
 		VictoryCondition.NO_VICTORY
